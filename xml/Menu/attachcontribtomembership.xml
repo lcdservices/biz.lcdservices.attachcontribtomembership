@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<menu>
+  <item>
+    <path>civicrm/attachtomem</path>
+    <page_callback>CRM_LCD_Attachcontribtomembership_Form_AttachMembership</page_callback>
+    <title>Attach to Membership</title>
+    <access_arguments>access CiviContribute</access_arguments>
+  </item>
+</menu>
