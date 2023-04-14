@@ -6,4 +6,9 @@
     <title>Attach to Membership</title>
     <access_arguments>access CiviContribute</access_arguments>
   </item>
+  <item>
+    <path>civicrm/admin/setting/actm</path>
+    <title>Attach Contribution to Membership Settings</title>
+    <page_callback>CRM_Admin_Form_Generic</page_callback>
+  </item>
 </menu>

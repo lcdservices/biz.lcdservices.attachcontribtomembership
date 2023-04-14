@@ -1,7 +1,7 @@
 <?php
 
 require_once 'attachcontribtomembership.civix.php';
-use CRM_Attachcontribtomembership_ExtensionUtil as E;
+use CRM_LCD_Attachcontribtomembership_ExtensionUtil as E;
 
 /**
  * Implements hook_civicrm_config().
@@ -17,9 +17,8 @@ function attachcontribtomembership_civicrm_config(&$config) {
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_xmlMenu
  */
-function attachcontribtomembership_civicrm_xmlMenu(&$files) {
-  _attachcontribtomembership_civix_civicrm_xmlMenu($files);
-}
+
+
 
 /**
  * Implements hook_civicrm_install().
@@ -36,7 +35,6 @@ function attachcontribtomembership_civicrm_install() {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_postInstall
  */
 function attachcontribtomembership_civicrm_postInstall() {
-  _attachcontribtomembership_civix_civicrm_postInstall();
 }
 
 /**
@@ -45,7 +43,6 @@ function attachcontribtomembership_civicrm_postInstall() {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_uninstall
  */
 function attachcontribtomembership_civicrm_uninstall() {
-  _attachcontribtomembership_civix_civicrm_uninstall();
 }
 
 /**
@@ -63,7 +60,6 @@ function attachcontribtomembership_civicrm_enable() {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_disable
  */
 function attachcontribtomembership_civicrm_disable() {
-  _attachcontribtomembership_civix_civicrm_disable();
 }
 
 /**
@@ -72,55 +68,7 @@ function attachcontribtomembership_civicrm_disable() {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_upgrade
  */
 function attachcontribtomembership_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) {
-  return _attachcontribtomembership_civix_civicrm_upgrade($op, $queue);
-}
-
-/**
- * Implements hook_civicrm_managed().
- *
- * Generate a list of entities to create/deactivate/delete when this module
- * is installed, disabled, uninstalled.
- *
- * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_managed
- */
-function attachcontribtomembership_civicrm_managed(&$entities) {
-  _attachcontribtomembership_civix_civicrm_managed($entities);
-}
-
-/**
- * Implements hook_civicrm_caseTypes().
- *
- * Generate a list of case-types.
- *
- * Note: This hook only runs in CiviCRM 4.4+.
- *
- * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_caseTypes
- */
-function attachcontribtomembership_civicrm_caseTypes(&$caseTypes) {
-  _attachcontribtomembership_civix_civicrm_caseTypes($caseTypes);
-}
-
-/**
- * Implements hook_civicrm_angularModules().
- *
- * Generate a list of Angular modules.
- *
- * Note: This hook only runs in CiviCRM 4.5+. It may
- * use features only available in v4.6+.
- *
- * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_angularModules
- */
-function attachcontribtomembership_civicrm_angularModules(&$angularModules) {
-  _attachcontribtomembership_civix_civicrm_angularModules($angularModules);
-}
-
-/**
- * Implements hook_civicrm_alterSettingsFolders().
- *
- * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_alterSettingsFolders
- */
-function attachcontribtomembership_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
-  _attachcontribtomembership_civix_civicrm_alterSettingsFolders($metaDataFolders);
+  return;
 }
 
 /**
@@ -131,7 +79,6 @@ function attachcontribtomembership_civicrm_alterSettingsFolders(&$metaDataFolder
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_entityTypes
  */
 function attachcontribtomembership_civicrm_entityTypes(&$entityTypes) {
-  _attachcontribtomembership_civix_civicrm_entityTypes($entityTypes);
 }
 
 function attachcontribtomembership_civicrm_searchColumns($objectName, &$headers, &$rows, &$selector) {
@@ -167,20 +114,12 @@ function attachcontribtomembership_civicrm_searchColumns($objectName, &$headers,
         1 => [$row['contribution_id'], 'Positive'],
       ]);
 
-      $actionLabel = 'Attach';
-      $memParam = '';
-
-      if ($memConnId) {
-        $actionLabel = 'Move';
-        $memParam = "&mpid={$memConnId}";
-      }
-
       //action column is either a series of links, or a series of links plus a subset
       //unordered list (more button) -- all of which is enclosed in a span
       //we want to inject our option at the end, regardless, so we look for the existence
       //of a <ul> tag and adjust our injection accordingly
-      $url = CRM_Utils_System::url('civicrm/attachtomem', "reset=1&id={$row['contribution_id']}{$memParam}");
-      $urlLink = "<a href='{$url}' class='action-item crm-hover-button medium-popup move-contrib'>{$actionLabel} to Membership</a>";
+      $url = CRM_Utils_System::url('civicrm/attachtomem', "reset=1&id={$row['contribution_id']}");
+      $urlLink = "<a href='{$url}' class='action-item crm-hover-button medium-popup move-contrib'>Attach to Membership</a>";
 
       if (strpos($row['action'], '</ul>') !== FALSE) {
         $row['action'] = str_replace('</ul>', '<li>'.$urlLink.'</li></ul>', $row['action']);
@@ -198,4 +137,13 @@ function attachcontribtomembership_civicrm_searchColumns($objectName, &$headers,
       }
     }
   }
+}
+
+function attachcontribtomembership_civicrm_navigationMenu(&$menu) {
+  _attachcontribtomembership_civix_insert_navigation_menu($menu, 'Administer/CiviMember', [
+    'label' => 'Attach Contrib to Membership Settings',
+    'name' => 'actm_settings',
+    'url' => 'civicrm/admin/setting/actm',
+    'permission' => 'access CiviMember',
+  ]);
 }
