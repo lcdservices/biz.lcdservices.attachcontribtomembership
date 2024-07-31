@@ -154,7 +154,16 @@ class CRM_LCD_Attachcontribtomembership_Form_AttachMembership extends CRM_Core_F
         }
       }
 
-      $pp = civicrm_api3('membership_payment', 'create', $mpParams);
+      //use SQL because the API triggers line item updates that we want to handle ourselves
+      CRM_Core_DAO::executeQuery('
+        INSERT INTO civicrm_membership_payment
+        (membership_id, contribution_id)
+        VALUES
+        (%1, %2)
+      ', [
+        1 => [$params['membership_id'], 'Positive'],
+        2 => [$params['contribution_id'], 'Positive'],
+      ]);
 
       $this->resolveLineItems($params['membership_id']);
 
